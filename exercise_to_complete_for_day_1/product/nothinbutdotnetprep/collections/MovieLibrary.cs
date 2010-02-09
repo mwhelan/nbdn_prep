@@ -41,12 +41,12 @@ namespace nothinbutdotnetprep.collections
             return all_movies();
         }
 
-        public IEnumerable<Movie> all_movies_published_by_pixar()
+        public static Predicate<Movie> all_movies_published_by_pixar()
         {
-            return all_movies_that_are_satisfied_by(is_published_by(ProductionStudio.pixar));
+            return is_published_by(ProductionStudio.pixar);
         }
 
-        private Predicate<Movie> is_published_by(ProductionStudio production_studio)
+        public static Predicate<Movie> is_published_by(ProductionStudio production_studio)
         {
             return  movie=> movie.production_studio == production_studio;          
         }
@@ -99,29 +99,29 @@ namespace nothinbutdotnetprep.collections
         }
 
 
-        public IEnumerable<Movie> all_movies_not_published_by_pixar()
+        public static Predicate<Movie> all_movies_not_published_by_pixar()
         {
-            return all_movies_that_are_satisfied_by(x => x.production_studio != ProductionStudio.pixar);
+            return x => x.production_studio != ProductionStudio.pixar;
         }
 
-        public IEnumerable<Movie> all_movies_published_after(int year)
+        public static Predicate<Movie> all_movies_published_after(int year)
         {
-            return all_movies_that_are_satisfied_by(movie1 => movie1.date_published.Year > year);
+            return movie1 => movie1.date_published.Year > year;
         }
 
-        public IEnumerable<Movie> all_movies_published_between_years(int startingYear, int endingYear)
+        public static Predicate<Movie> all_movies_published_between_years(int startingYear, int endingYear)
         {
-            return all_movies_that_are_satisfied_by((Movie movie) => movie.date_published.Year <= endingYear && movie.date_published.Year >= startingYear);
+            return (Movie movie) => movie.date_published.Year <= endingYear && movie.date_published.Year >= startingYear;
         }
 
-        public IEnumerable<Movie> all_kid_movies()
+        public static Predicate<Movie> all_kid_movies()
         {
-            return all_movies_that_are_satisfied_by((Movie movie) => movie.genre == Genre.kids);
+            return (Movie movie) => movie.genre == Genre.kids;
         }
 
-        public IEnumerable<Movie> all_action_movies()
+        public static Predicate<Movie> all_action_movies()
         {
-            return all_movies_that_are_satisfied_by((Movie movie) => movie.genre == Genre.action);
+            return (Movie movie) => movie.genre == Genre.action;
         }
 
         public IEnumerable<Movie> sort_all_movies_by_date_published_descending()
@@ -146,8 +146,8 @@ namespace nothinbutdotnetprep.collections
             return all_movies();
         }
 
-
-        IEnumerable<Movie> all_movies_that_are_satisfied_by(Predicate<Movie> criteria)
+        
+        public IEnumerable<Movie> all_movies_that_are_satisfied_by(Predicate<Movie> criteria)
         {
             foreach (var movie in movies)
             {
